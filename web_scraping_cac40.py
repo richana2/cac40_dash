@@ -5,6 +5,9 @@ from datetime import date
 import boto3
 import os
 
+start = '2020-01-01'
+end =  date.today().strftime("%Y-%m-%d")
+filename = 'CAC40_raw_data_' + start + '_to_' + end +'.csv'
 
 def cac40scraping(start, end):
     try:
@@ -32,15 +35,12 @@ def save_to_S3(filename, date, bucket):
 
 if __name__ == '__main__':
   #################################Scraping####################################
-  start = '2020-01-01'
-  end =  date.today().strftime("%Y-%m-%d")
-  filename = 'CAC40_raw_data_' + start + '_to_' + end +'.csv'
-  
   data = cac40scraping(start, end)
   data.to_csv(filename)
   #############################################################################
   
   #################################Upload to S3################################
   save_to_S3(filename, end, 'cac40-raw-data')
+  os.remove(filename)
   #############################################################################
   
