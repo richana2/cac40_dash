@@ -27,7 +27,7 @@ def save_to_S3(filename, date, bucket):
   try:
     s3 = boto3.client('s3')
     
-    s3.upload_file(filename, bucket, date + '/' + filename)
+    s3.upload_file(filename, bucket, filename)
   except Exception as e:
     print(e)
     print('Failed to upload the data to S3.')
